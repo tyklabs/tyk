@@ -1103,6 +1103,8 @@ func TestCustomDomain(t *testing.T) {
 	ts := StartTest(nil)
 	defer ts.Close()
 
+	localClient := test.NewClientLocal()
+
 	t.Run("With custom domain support", func(t *testing.T) {
 		globalConf := ts.Gw.GetConfig()
 		globalConf.EnableCustomDomains = true
@@ -1121,10 +1123,10 @@ func TestCustomDomain(t *testing.T) {
 		)
 
 		ts.Run(t, []test.TestCase{
-			{Code: 200, Path: "/with_domain", Domain: "host1"},
-			{Code: 404, Path: "/with_domain"},
-			{Code: 200, Path: "/without_domain"},
-			{Code: 200, Path: "/tyk/keys", AdminAuth: true},
+			{Client: localClient, Code: 200, Path: "/with_domain", Domain: "host1"},
+			{Client: localClient, Code: 404, Path: "/with_domain"},
+			{Client: localClient, Code: 200, Path: "/without_domain"},
+			{Client: localClient, Code: 200, Path: "/tyk/keys", AdminAuth: true},
 		}...)
 	})
 
@@ -1142,10 +1144,10 @@ func TestCustomDomain(t *testing.T) {
 		)
 
 		ts.Run(t, []test.TestCase{
-			{Code: 200, Path: "/with_domain", Domain: "host1"},
-			{Code: 200, Path: "/with_domain"},
-			{Code: 200, Path: "/without_domain"},
-			{Code: 200, Path: "/tyk/keys", AdminAuth: true},
+			{Client: localClient, Code: 200, Path: "/with_domain", Domain: "host1"},
+			{Client: localClient, Code: 200, Path: "/with_domain"},
+			{Client: localClient, Code: 200, Path: "/without_domain"},
+			{Client: localClient, Code: 200, Path: "/tyk/keys", AdminAuth: true},
 		}...)
 	})
 }
