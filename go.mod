@@ -33,9 +33,9 @@ require (
 	github.com/gemnasium/logrus-graylog-hook v2.0.7+incompatible
 	github.com/getkin/kin-openapi v0.89.0
 	github.com/getsentry/raven-go v0.2.0 // indirect
-	github.com/go-redis/redis/v8 v8.3.1
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gocraft/health v0.0.0-20170925182251-8675af27fef0
-	github.com/golang/protobuf v1.4.2
+	github.com/golang/protobuf v1.5.2
 	github.com/google/btree v1.0.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/mux v1.8.0
