@@ -877,7 +877,9 @@ func (gw *Gateway) isRPCMode() bool {
 
 func (gw *Gateway) rpcReloadLoop(rpcKey string) {
 	for {
-		gw.RPCListener.CheckForReload(rpcKey)
+		if ok := gw.RPCListener.CheckForReload(rpcKey); !ok {
+			return
+		}
 	}
 }
 
