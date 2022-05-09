@@ -86,8 +86,7 @@ type Gateway struct {
 	config          atomic.Value
 	configMu        sync.Mutex
 
-	ctx      context.Context
-	cancelFn context.CancelFunc
+	ctx context.Context
 
 	muNodeID   sync.Mutex // guards NodeID
 	NodeID     string
@@ -191,13 +190,12 @@ type hostDetails struct {
 	PID      int
 }
 
-func NewGateway(config config.Config, ctx context.Context, cancelFn context.CancelFunc) *Gateway {
+func NewGateway(config config.Config, ctx context.Context) *Gateway {
 	gw := Gateway{
 		DefaultProxyMux: &proxyMux{
 			again: again.New(),
 		},
-		ctx:      ctx,
-		cancelFn: cancelFn,
+		ctx: ctx,
 	}
 
 	gw.Analytics = RedisAnalyticsHandler{Gw: &gw}
@@ -967,6 +965,7 @@ func (gw *Gateway) reloadQueueLoop(cb ...func()) {
 	for {
 		select {
 		case <-gw.ctx.Done():
+			log.Warn("Canceled ctx in reloadQueueLoop")
 			return
 		case fn := <-gw.reloadQueue:
 			gw.requeueLock.Lock()
@@ -1434,6 +1433,7 @@ func (gw *Gateway) getGlobalStorageHandler(keyPrefix string, hashKeys bool) stor
 func Start() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
 	cli.Init(VERSION, confPaths)
 	cli.Parse()
 	// Stop gateway process if not running in "start" mode:
@@ -1442,7 +1442,7 @@ func Start() {
 	}
 
 	// ToDo:Config replace for get default conf
-	gw := NewGateway(config.Default, ctx, cancel)
+	gw := NewGateway(config.Default, ctx)
 	gw.SetNodeID("solo-" + uuid.NewV4().String())
 
 	gw.SessionID = uuid.NewV4().String()
