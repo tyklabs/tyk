@@ -612,6 +612,9 @@ func (gw *Gateway) loadControlAPIEndpoints(muxer *mux.Router) {
 		r.HandleFunc("/keys/create", gw.createKeyHandler).Methods("POST")
 		r.HandleFunc("/apis", gw.apiHandler).Methods("GET", "POST", "PUT", "DELETE")
 		r.HandleFunc("/apis/{apiID}", gw.apiHandler).Methods("GET", "POST", "PUT", "DELETE")
+
+		r.HandleFunc("/apis/oas/{apiID}", gw.oasPatchAPIHandler).Methods("PATCH")
+
 		r.HandleFunc("/health", gw.healthCheckhandler).Methods("GET")
 		r.HandleFunc("/policies", gw.polHandler).Methods("GET", "POST", "PUT", "DELETE")
 		r.HandleFunc("/policies/{polID}", gw.polHandler).Methods("GET", "POST", "PUT", "DELETE")
