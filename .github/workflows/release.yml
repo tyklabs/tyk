@@ -129,7 +129,7 @@ jobs:
           cp -r ./* /go/src/github.com/TykTechnologies/tyk
 
 
-      - uses: goreleaser/goreleaser-action@v2
+      - uses: goreleaser/goreleaser-action@v3
         with:
           version: latest
           args: release --rm-dist -f ${{ matrix.goreleaser }}
