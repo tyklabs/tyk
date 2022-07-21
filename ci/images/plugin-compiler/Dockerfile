@@ -1,3 +1,4 @@
+# Changes for testing merge commits.
 ARG GOLANG_CROSS=1.15
 
 FROM tykio/golang-cross:${GOLANG_CROSS}
