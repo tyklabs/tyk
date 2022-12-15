@@ -1,6 +1,6 @@
 #!/bin/bash
 set -ex
-
+#check co
 # Do this first else it will overwrite the change from yum-config-manager 
 sudo yum update -y
 
