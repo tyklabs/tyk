@@ -1,3 +1,3 @@
-ci/* @tyklabs/devops
+/ci/ @tyklabs/devops
 .github/workflows/release.yml @tyklabs/devops
 .github/workflows/sync-automation.yml @tyklabs/devops
