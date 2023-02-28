@@ -34,6 +34,7 @@ jobs:
       - name: sync ${{matrix.branch}} from master
         id: sync-changes
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config --local user.email "policy@gromit"
           git config --local user.name "Bender"
           git fetch origin ${{ matrix.branch }}
