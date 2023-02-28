@@ -67,6 +67,9 @@ jobs:
           git add -A && git commit -m "[CI]: Automated releng bundle sync by sync-automation"
           git push origin ${{ steps.sync-changes.outputs.prbranch }}
           exit 0
+        env:
+          GITHUB_TOKEN: ${{ secrets.ORG_GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.ORG_GH_TOKEN }}
 
       - name: Create PR from the branch.
         id: create-pr
