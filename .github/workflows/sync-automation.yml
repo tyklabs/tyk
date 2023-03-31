@@ -79,9 +79,9 @@ jobs:
           github-token: ${{ secrets.ORG_GH_TOKEN }}
           result-encoding: string
           script: |
-            lines = "${{ github.event.head_commit.message }}".split("\n")
+            title = '${{ github.event.head_commit.message }}'.split("\n")[0]
             const response = await github.rest.pulls.create({
-              title: '[CI] Sync automation: '+ lines[0],
+              title: '[CI] Sync automation: '+ title,
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: '${{ steps.sync-changes.outputs.prbranch }}',
@@ -92,7 +92,7 @@ jobs:
                      Please make any additional changes required before
                      merging.
 
-                    ` + (lines.slice(1)).join("\n")});
+                    ` + '${{ github.event.head_commit.message }}' });
             github.rest.issues.addLabels({
               owner:  context.repo.owner,
               repo: context.repo.repo,
