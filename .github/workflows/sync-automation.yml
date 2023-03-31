@@ -51,7 +51,7 @@ jobs:
           git restore --source master -- .github/dependabot.yml
           rm -f .github/workflows/api-tests.yml
           git restore --source master -- .github/workflows/api-tests.yml
-          git add -A && git commit -m "[CI]:master->${{ matrix.branch }}: ${{ github.event.head_commit.messageHeadline }}"
+          git add -A && git commit -m "[CI]: Syncing commits from ${{ matrix.branch }}"
           git push origin $prbranch
           echo "prbranch=$prbranch" >> $GITHUB_OUTPUT
           echo "::debug::Commit ${{ github.sha }} syncd for ${{matrix.branch}}"
@@ -79,8 +79,9 @@ jobs:
           github-token: ${{ secrets.ORG_GH_TOKEN }}
           result-encoding: string
           script: |
+            lines = "${{ github.event.head_commit.message }}".split("\n")
             const response = await github.rest.pulls.create({
-              title: '[CI] Sync automation: Syncing commits from master',
+              title: '[CI] Sync automation: '+ lines[0],
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: '${{ steps.sync-changes.outputs.prbranch }}',
@@ -91,7 +92,7 @@ jobs:
                      Please make any additional changes required before
                      merging.
 
-                    ${{ github.event.head_commit.messageBody }}`});
+                    ` + (lines.slice(1)).join("\n")});
             github.rest.issues.addLabels({
               owner:  context.repo.owner,
               repo: context.repo.repo,
