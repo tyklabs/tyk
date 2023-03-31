@@ -79,7 +79,8 @@ jobs:
           github-token: ${{ secrets.ORG_GH_TOKEN }}
           result-encoding: string
           script: |
-            let title = '[CI]: ' + '${{ github.event.head_commit.message }}'.split('\n')[0];
+            const msg = '${{ github.event.head_commit.message }}';
+            const title = '[CI]: '+msg.split("\n")[0];
             const response = await github.rest.pulls.create({
               title: title,
               owner: context.repo.owner,
@@ -92,7 +93,7 @@ jobs:
                      Please make any additional changes required before
                      merging.
 
-                    ${{ github.event.head_commit.message }}` });
+                    ${msg}` });
             github.rest.issues.addLabels({
               owner:  context.repo.owner,
               repo: context.repo.repo,
