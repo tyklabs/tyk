@@ -79,9 +79,9 @@ jobs:
           github-token: ${{ secrets.ORG_GH_TOKEN }}
           result-encoding: string
           script: |
-            title = '${{ github.event.head_commit.message }}'.split('\n')[0];
+            let title = '[CI]: ' + '${{ github.event.head_commit.message }}'.split('\n')[0];
             const response = await github.rest.pulls.create({
-              title: '[CI] Sync automation: '+ title,
+              title: title,
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: '${{ steps.sync-changes.outputs.prbranch }}',
