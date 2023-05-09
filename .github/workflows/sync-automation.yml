@@ -59,7 +59,7 @@ jobs:
           mkdir /tmp/gromit-src && gh api -H "Accept: application/vnd.github+json" /repos/TykTechnologies/gromit/tarball/master | tar --strip-components 1 -C /tmp/gromit-src -xzf -
           gromit bundle gen --branch ${{ matrix.branch }} --bundle /tmp/gromit-src/policy/templates/releng  --repo tyk .
           git add -A && git commit -m "[CI]: Syncing ${{ matrix.branch }}"
-          gromit git push . tyk $prbranch --branch $prbranch
+          gromit git push . tyk $prbranch --branch $prbranch --owner tyklabs
         env:
           GITHUB_TOKEN: ${{ secrets.ORG_GH_TOKEN }}
           # Needed for gh CLI
