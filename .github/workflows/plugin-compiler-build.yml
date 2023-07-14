@@ -39,9 +39,9 @@ jobs:
         with:
           script: |
             const semver = require('semver')
-            valid_tag = semver.valid(context.payload.workflow_run.head_branch)
+            let tag = semver.valid(context.payload.workflow_run.head_branch)
             return tag
-          result_encoding: string
+          result-encoding: string
 
       - name: Set docker metadata
         id: set-metadata
