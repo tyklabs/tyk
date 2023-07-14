@@ -70,9 +70,9 @@ jobs:
             GITHUB_TAG=${{ steps.verify-tag.outputs.tag }}
 
   smoke-tests:
-    if: ${{ needs.docker-build.outputs.tag != '' }}
     needs:
       - docker-build
+    if: ${{ needs.docker-build.outputs.tag != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
