@@ -40,7 +40,7 @@ jobs:
           script: |
             const semver = require('semver')
             let tag = semver.valid(context.payload.workflow_run.head_branch)
-            return tag
+            return 'v'+tag
           result-encoding: string
 
       - name: Set docker metadata
