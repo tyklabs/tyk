@@ -80,12 +80,7 @@ jobs:
       - name: Unlock agent and set tag
         id: targets
         shell: bash
-        env:
-          NFPM_STD_PASSPHRASE: ${{ secrets.SIGNING_KEY_PASSPHRASE }}
-          GPG_FINGERPRINT: 12B5D62C28F57592D1575BD51ED14C59E37DAC20
-          PKG_SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         run: |
-          ci/bin/unlock-agent.sh
           current_tag=${GITHUB_REF##*/}
           echo "tag=${current_tag}" >> $GITHUB_OUTPUT
 
