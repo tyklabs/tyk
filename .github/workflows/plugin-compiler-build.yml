@@ -15,7 +15,7 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.verify-tag.outputs.tag }}
+      tag: ${{ steps.verify-tag.outputs.result }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -50,11 +50,11 @@ jobs:
           images: asutoshjg/tyk-plugin-compiler
           labels: |
             org.opencontainers.image.title=tyk-plugin-compiler
-            org.opencontainers.image.version=${{ steps.verify-tag.outputs.tag }}
+            org.opencontainers.image.version=${{ steps.verify-tag.outputs.result }}
             org.opencontainers.image.description=Plugin compiler for the Tyk API Gateway
           tags: |
-            type=semver,pattern=v{{version}},value=${{ steps.verify-tag.outputs.tag }}
-            type=semver,pattern=v{{major}}.{{minor}},value=${{ steps.verify-tag.outputs.tag }}
+            type=semver,pattern=v{{version}},value=${{ steps.verify-tag.outputs.result }}
+            type=semver,pattern=v{{major}}.{{minor}},value=${{ steps.verify-tag.outputs.result }}
 
 
       - name: Login to Dockerhub
@@ -69,13 +69,13 @@ jobs:
           context: .
           file: ci/images/plugin-compiler/Dockerfile
           platforms: linux/amd64
-          push: ${{ steps.verify-tag.outputs.tag != '' }}
+          push: ${{ steps.verify-tag.outputs.result != '' }}
           labels: ${{ steps.set-metadata.outputs.labels }}
           tags: ${{ steps.set-metadata.outputs.tags }}
           build-args: |
             BASE-IMAGE=tykio/golang-cross:${{ env.GOLANG_CROSS }}
             GITHUB_SHA=${{ github.event.workflow_run.head_sha }}
-            GITHUB_TAG=${{ steps.verify-tag.outputs.tag }}
+            GITHUB_TAG=${{ steps.verify-tag.outputs.result }}
 
   smoke-tests:
     needs:
