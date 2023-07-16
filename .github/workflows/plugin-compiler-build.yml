@@ -39,16 +39,16 @@ jobs:
         with:
           script: |
             const semver = require('semver')
-            var majorMinor
+            var out  = {tag: null, majorminor: null}
             let tag = semver.valid(context.payload.workflow_run.head_branch)
-            if (semver.prerelease(tag) != null) {
-              majorMinor = tag
+            if (tag == null) {
+              return out
             } else {
-              majorMinor = semver.major(tag)+"."+semver.minor(tag)
+              out.tag = 'v'+tag
             }
-            const out = new Object()
-            out.tag = 'v'+tag
-            out.major_minor = 'v'+majorMinor
+            if (semver.prerelease(tag) == null) {
+              out.majorminor = 'v'+semver.major(tag)+'.'+semver.minor(tag)
+            }
             return out
 
       - name: Set docker metadata
@@ -63,7 +63,7 @@ jobs:
           tags: |
             type=semver,pattern=v{{version}},value=${{ fromJson(steps.verify-tag.outputs.result).tag }}
             type=raw,value=${{ fromJson(steps.verify-tag.outputs.result).tag }}
-            type=raw,value=${{ fromJson(steps.verify-tag.outputs.result).major_minor }}
+            type=raw,value=${{ fromJson(steps.verify-tag.outputs.result).majorminor }}
 
 
       - name: Login to Dockerhub
