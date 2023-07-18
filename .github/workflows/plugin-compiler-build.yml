@@ -62,6 +62,7 @@ jobs:
           file: ci/images/plugin-compiler/Dockerfile
           platforms: linux/amd64
           push: ${{ startsWith(github.ref, 'refs/tags') }}
+          load: true
           labels: ${{ steps.set-metadata.outputs.labels }}
           tags: ${{ steps.set-metadata.outputs.tags }}
           build-args: |
