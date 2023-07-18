@@ -73,6 +73,6 @@ jobs:
         run: |
             docker buildx imagetools create \
               --tag ghcr.io/tyklabs/tyk-plugin-compiler:{{ steps.set-tag.outputs.tag }} \
-              --tag ghcr.io/tyklabs/tyk-plugin-compiler:{{ github.sha }}
-              tyjio/tyk-plugin-compiler:{{ steps.set-tag.outputs.tag }}
+              --tag ghcr.io/tyklabs/tyk-plugin-compiler:{{ github.sha }} \
+              asutoshjg/tyk-plugin-compiler:{{ steps.set-tag.outputs.tag }}
             
