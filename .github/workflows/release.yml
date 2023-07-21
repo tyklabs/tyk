@@ -272,7 +272,7 @@ jobs:
           RUN dpkg -i tyk-gateway.deb
           RUN apt-get install -y jq
           RUN /opt/tyk-gateway/install/setup.sh --listenport=8080 --redishost=localhost --redisport=6379 --domain=""
-          echo "127.0.0.1 httpbin.org" >> /etc/hosts
+          RUN echo "127.0.0.1 httpbin.org" >> /etc/hosts
           COPY ci/tests/api-functionality/api_test.sh /
           COPY ci/tests/api-functionality/pkg_test.sh /
           COPY ci/tests/api-functionality/data/api.json /opt/tyk-gateway/apps/
@@ -330,7 +330,7 @@ jobs:
           RUN rpm -Uvh --force tyk-gateway.rpm
           RUN curl -fSL https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 --output /usr/local/bin/jq && chmod a+x /usr/local/bin/jq
           RUN /opt/tyk-gateway/install/setup.sh --listenport=8080 --redishost=localhost --redisport=6379 --domain=""
-          echo "127.0.0.1 httpbin.org" >> /etc/hosts
+          RUN echo "127.0.0.1 httpbin.org" >> /etc/hosts
           COPY ci/tests/api-functionality/data/api.json /opt/tyk-gateway/apps/
           COPY ci/tests/api-functionality/api_test.sh /
           COPY ci/tests/api-functionality/pkg_test.sh /
