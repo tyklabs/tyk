@@ -205,13 +205,6 @@ jobs:
             ${{ steps.login-ecr.outputs.registry }}/tyk:${{ needs.goreleaser.outputs.tag }}
             ${{ steps.login-ecr.outputs.registry }}/tyk:${{ github.sha }}
 
-  sbom:
-    needs: ci
-    uses: TykTechnologies/github-actions/.github/workflows/sbom.yaml@main
-    secrets:
-      DEPDASH_URL: ${{ secrets.DEPDASH_URL }}
-      DEPDASH_KEY: ${{ secrets.DEPDASH_KEY }}
-      ORG_GH_TOKEN: ${{ secrets.ORG_GH_TOKEN }}
 
   tat:
     needs: ci
